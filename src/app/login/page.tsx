@@ -38,7 +38,6 @@ export default function Login() {
 
   return (
     <main className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background Decorators */}
       <div className="absolute top-[10%] left-[20%] w-[300px] h-[300px] bg-[#39ff14]/10 rounded-full blur-[100px] pointer-events-none animate-neon-pulse"></div>
       <div className="absolute bottom-[10%] right-[20%] w-[400px] h-[400px] bg-[#00f0ff]/10 rounded-full blur-[120px] pointer-events-none animate-float"></div>
 

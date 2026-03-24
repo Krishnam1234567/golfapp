@@ -50,8 +50,6 @@ export default function AdminDashboard() {
   const runSimulation = () => {
     setSimulating(true);
     setSimulationComplete(false);
-    
-    // Animate numbers spinning
     let iterations = 0;
     const interval = setInterval(() => {
       setDrawNumbers(Array.from({length: 5}, () => Math.floor(Math.random() * 45) + 1));
@@ -59,7 +57,6 @@ export default function AdminDashboard() {
       
       if (iterations > 30) {
         clearInterval(interval);
-        // Final numbers
         setDrawNumbers([12, 45, 7, 22, 31].sort((a,b) => a-b));
         setTimeout(() => {
           setSimulating(false);
@@ -71,7 +68,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Sidebar */}
       <aside className="w-64 border-r border-[#ffffff10] p-6 flex flex-col hidden md:flex bg-black/40 backdrop-blur-md">
         <Link href="/" className="inline-block text-xl font-black tracking-tighter text-white mb-12">
           GOLF<span className="text-gradient">ADMIN</span>
@@ -88,8 +84,6 @@ export default function AdminDashboard() {
           ))}
         </nav>
       </aside>
-
-      {/* Main Content */}
       <main className="flex-1 p-8 md:p-12 overflow-y-auto w-full relative">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00f0ff]/5 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#ff00ff]/5 rounded-full blur-[120px] pointer-events-none"></div>
@@ -152,12 +146,8 @@ export default function AdminDashboard() {
                   {simulating ? 'Processing Matrix...' : 'Run Simulation Sequence'}
                 </button>
               </section>
-
-              {/* Simulation Results Panel */}
               <section className={`glass-card transition-all duration-700 ${simulating || simulationComplete ? 'opacity-100 translate-x-0' : 'opacity-50 translate-x-8 pointer-events-none'}`}>
                 <h2 className="text-2xl font-bold text-white mb-6">Simulation Sandbox</h2>
-                
-                {/* Number Spinner */}
                 <div className="flex justify-between gap-2 mb-8 bg-black/50 p-6 rounded-2xl border border-white/5">
                   {drawNumbers.map((num, i) => (
                     <div key={i} className="relative w-14 h-14 md:w-16 md:h-16 bg-gradient-to-b from-[#111] to-[#222] rounded-full flex items-center justify-center border-2 border-[#39ff14]/50 shadow-[inset_0_4px_10px_rgba(0,0,0,0.8),0_0_15px_rgba(57,255,20,0.3)] overflow-hidden">

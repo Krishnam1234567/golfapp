@@ -49,14 +49,10 @@ export default function Dashboard() {
     
     const value = Number(newScore);
     const today = new Date().toISOString().split('T')[0];
-
-    // Optimistic UI update
     const newEntry = { id: Date.now().toString(), score_value: value, played_at: today };
     const prevScores = [...scores];
     setScores([newEntry, ...scores.slice(0, 4)] as any);
     setNewScore('');
-
-    // Insert into DB
     const { error } = await supabase
       .from('scores')
       .insert({ user_id: user.id, score_value: value, played_at: today });
@@ -64,7 +60,7 @@ export default function Dashboard() {
     if (error) {
       console.error('Error saving score:', error);
       alert('Failed to sync score.');
-      setScores(prevScores); // Rollback
+      setScores(prevScores);
     }
   };
 
@@ -74,11 +70,8 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex bg-transparent relative overflow-hidden">
-      {/* Neo Background Glows */}
       <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] bg-[#00f0ff]/10 rounded-full blur-[150px] pointer-events-none animate-float"></div>
       <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-[#ff00ff]/10 rounded-full blur-[150px] pointer-events-none animate-neon-pulse"></div>
-      
-      {/* Sidebar */}
       <aside className="w-64 border-r border-white/5 p-6 flex-col justify-between hidden md:flex bg-black/40 backdrop-blur-xl z-20 shadow-[10px_0_30px_rgba(0,0,0,0.5)]">
         <div>
           <Link href="/" className="inline-block text-2xl font-black tracking-tighter text-white mb-12 drop-shadow-md">
@@ -97,8 +90,6 @@ export default function Dashboard() {
           </nav>
         </div>
       </aside>
-
-      {/* Main Content */}
       <main className="flex-1 p-8 md:p-12 overflow-y-auto z-10 w-full">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 relative z-20">
           <div>
@@ -112,11 +103,7 @@ export default function Dashboard() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-20">
-          
-          {/* Main Column */}
           <div className="lg:col-span-2 space-y-8">
-            
-            {/* Score Entry Visualizer */}
             <GlassCard glowColor="primary" className="p-8">
               <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3 glow-text">
                 <div className="w-3 h-3 rounded-full bg-[#00f0ff] animate-pulse shadow-[0_0_10px_#00f0ff]"></div>
@@ -170,11 +157,7 @@ export default function Dashboard() {
               </div>
             </GlassCard>
           </div>
-
-          {/* Right Column */}
           <div className="space-y-8">
-            
-            {/* Winnings Overview */}
             <GlassCard glowColor="secondary" className="text-center p-8 border-[#ff00ff]/30">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff00ff]/10 blur-3xl rounded-full"></div>
               <h2 className="text-sm font-bold text-gray-400 mb-2 uppercase tracking-widest relative z-10">Total Winnings</h2>
@@ -185,8 +168,6 @@ export default function Dashboard() {
                 Initiate Withdrawal
               </NeonButton>
             </GlassCard>
-
-            {/* Charity Impact */}
             <GlassCard glowColor="accent" className="p-8">
               <h2 className="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest">Heart & Impact</h2>
               

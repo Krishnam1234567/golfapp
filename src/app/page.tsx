@@ -5,12 +5,9 @@ import NeonButton from '@/components/ui/NeonButton';
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden">
-      {/* Background Decorators */}
       <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-[#00f0ff]/10 rounded-full blur-[150px] pointer-events-none animate-float"></div>
       <div className="absolute top-[60%] right-[-10%] w-[600px] h-[600px] bg-[#ff00ff]/10 rounded-full blur-[150px] pointer-events-none animate-neon-pulse"></div>
       <div className="absolute bottom-[-10%] left-[30%] w-[500px] h-[500px] bg-[#39ff14]/10 rounded-full blur-[150px] pointer-events-none"></div>
-
-      {/* Premium Header */}
       <header className="container py-6 flex justify-between items-center relative z-20 mb-12">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00f0ff] to-[#0099ff] flex items-center justify-center shadow-[0_0_20px_rgba(0,240,255,0.4)] relative">
@@ -34,8 +31,6 @@ export default function Home() {
           </NeonButton>
         </div>
       </header>
-
-      {/* Hero Section */}
       <section className="container text-center py-20 relative z-20">
         
         <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-black/50 border border-[#ff00ff]/30 text-white text-sm mb-12 shadow-[0_0_30px_rgba(255,0,255,0.15)] backdrop-blur-md">
@@ -63,8 +58,6 @@ export default function Home() {
           </NeonButton>
         </div>
       </section>
-
-      {/* Value Props - Glass cards */}
       <section className="container py-20 relative z-20 grid grid-cols-1 md:grid-cols-3 gap-8">
         <GlassCard glowColor="primary" className="text-center">
           <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#00f0ff]/20 to-white/5 flex items-center justify-center mx-auto mb-8 border border-[#00f0ff]/30 shadow-[0_0_30px_rgba(0,240,255,0.2)]">

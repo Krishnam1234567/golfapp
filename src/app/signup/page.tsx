@@ -52,7 +52,6 @@ export default function SignUp() {
 
   return (
     <main className="min-h-screen flex items-center justify-center py-12 relative overflow-hidden">
-      {/* Background Decorators */}
       <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-[#ff00ff]/10 rounded-full blur-[120px] pointer-events-none animate-float"></div>
       <div className="absolute bottom-[10%] left-[10%] w-[300px] h-[300px] bg-[#00f0ff]/10 rounded-full blur-[100px] pointer-events-none animate-neon-pulse"></div>
 
@@ -76,8 +75,6 @@ export default function SignUp() {
             <NeonInput label="Password" type="password" variant="secondary" value={password} onChange={e => setPassword(e.target.value)} required />
 
             <hr className="border-white/10 my-2" />
-
-            {/* Charity Selection */}
             <div className="bg-[#ff00ff]/5 border border-[#ff00ff]/30 rounded-xl p-5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff00ff]/10 blur-2xl rounded-full"></div>
               
