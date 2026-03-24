@@ -5,7 +5,60 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
 export default function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminId, setAdminId] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminId === 'admin' && adminPassword === 'golfcharity2024') {
+      setIsAuthenticated(true);
+    } else {
+      alert('Invalid admin credentials. Please try again.');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden">
+        <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] bg-[#00f0ff]/10 rounded-full blur-[100px] animate-pulse pointer-events-none"></div>
+        <div className="absolute bottom-[20%] right-[20%] w-[300px] h-[300px] bg-[#ff00ff]/10 rounded-full blur-[100px] animate-pulse pointer-events-none delay-1000"></div>
+        
+        <form onSubmit={handleLogin} className="glass-card p-10 max-w-sm w-full relative z-10 flex flex-col gap-6">
+          <div className="text-center mb-4">
+            <h1 className="text-3xl font-black text-white tracking-tighter">
+              GOLF<span className="text-[#00f0ff] glow-text">ADMIN</span>
+            </h1>
+            <p className="text-[#888] text-sm mt-2">Restricted Access Portal</p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <input 
+              type="text" 
+              placeholder="Admin ID" 
+              value={adminId} 
+              onChange={e => setAdminId(e.target.value)}
+              className="w-full px-4 py-3 bg-black/60 border border-white/10 rounded-xl text-white outline-none focus:border-[#00f0ff] focus:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all"
+              required
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={adminPassword} 
+              onChange={e => setAdminPassword(e.target.value)}
+              className="w-full px-4 py-3 bg-black/60 border border-white/10 rounded-xl text-white outline-none focus:border-[#ff00ff] focus:shadow-[0_0_15px_rgba(255,0,255,0.3)] transition-all"
+              required
+            />
+          </div>
+
+          <button type="submit" className="w-full py-3 rounded-xl bg-gradient-to-r from-[#00f0ff] to-[#0099ff] text-black font-black tracking-wide shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] transition-all mt-2">
+            INITIALIZE UPLINK
+          </button>
+        </form>
+      </div>
+    );
+  }
   const [simulating, setSimulating] = useState(false);
   const [simulationComplete, setSimulationComplete] = useState(false);
   const [drawNumbers, setDrawNumbers] = useState<number[]>([0, 0, 0, 0, 0]);
