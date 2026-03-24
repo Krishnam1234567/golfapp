@@ -2,12 +2,50 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [simulating, setSimulating] = useState(false);
   const [simulationComplete, setSimulationComplete] = useState(false);
   const [drawNumbers, setDrawNumbers] = useState<number[]>([0, 0, 0, 0, 0]);
+  const [metrics, setMetrics] = useState({ users: 0, subs: 0, charity: 0, prize: 0 });
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      const { count: userCount } = await supabase.from('users').select('*', { count: 'exact', head: true });
+      const { count: subCount } = await supabase.from('subscriptions').select('*', { count: 'exact', head: true }).eq('status', 'active');
+      
+      setMetrics({
+        users: userCount || 0,
+        subs: subCount || 0,
+        charity: (subCount || 0) * 15,
+        prize: (subCount || 0) * 35,
+      });
+    };
+    fetchMetrics();
+  }, []);
+  
+  const publishDraw = async () => {
+    setIsPublishing(true);
+    try {
+      const { error } = await supabase.from('draws').insert({
+        draw_date: new Date().toISOString().split('T')[0],
+        status: 'published',
+        winning_numbers: drawNumbers,
+        jackpot_amount: metrics.prize
+      });
+      
+      if (error) throw error;
+      alert('✅ Draw results published live successfully!');
+      setSimulationComplete(false);
+    } catch (err: any) {
+      alert('Failed to publish: ' + err.message);
+    } finally {
+      setIsPublishing(false);
+    }
+  };
   
   const runSimulation = () => {
     setSimulating(true);
@@ -65,10 +103,10 @@ export default function AdminDashboard() {
           {activeTab === 'overview' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {[
-                { label: 'Total Users', value: '1,248', color: '#00f0ff' },
-                { label: 'Active Subs', value: '1,102', color: '#39ff14' },
-                { label: 'Charity Pool', value: '$2,450', color: '#ff00ff' },
-                { label: 'Prize Pool', value: '$8,900', color: '#eeff00' }
+                { label: 'Total Users', value: metrics.users.toLocaleString(), color: '#00f0ff' },
+                { label: 'Active Subs', value: metrics.subs.toLocaleString(), color: '#39ff14' },
+                { label: 'Charity Pool', value: `$${metrics.charity.toLocaleString()}`, color: '#ff00ff' },
+                { label: 'Prize Pool', value: `$${metrics.prize.toLocaleString()}`, color: '#eeff00' }
               ].map((stat, i) => (
                 <div key={i} className="glass-card hover:-translate-y-2 transition-transform duration-300" style={{ borderLeft: `4px solid ${stat.color}` }}>
                   <div className="text-[#888] text-sm font-medium uppercase tracking-wider">{stat.label}</div>
@@ -156,8 +194,8 @@ export default function AdminDashboard() {
                         <div className="text-sm text-[#39ff14] mt-1">$49 each</div>
                       </div>
                     </div>
-                    <button className="btn btn-secondary w-full border-[#ff00ff]/30 hover:border-[#ff00ff] hover:bg-[#ff00ff]/10 text-white">
-                      Publish Results to Live
+                    <button onClick={publishDraw} disabled={isPublishing} className="btn btn-secondary w-full border-[#ff00ff]/30 hover:border-[#ff00ff] hover:bg-[#ff00ff]/10 text-white disabled:opacity-50">
+                      {isPublishing ? 'Publishing...' : 'Publish Results to Live'}
                     </button>
                   </div>
                 )}

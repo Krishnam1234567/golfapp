@@ -25,6 +25,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            tailwind.config = {
+              theme: {
+                extend: {
+                  colors: {
+                    background: 'var(--bg-color)',
+                    foreground: 'var(--text-main)',
+                  }
+                }
+              }
+            }
+          `
+        }} />
+      </head>
       <body>
         <Background3D />
         {children}
